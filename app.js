@@ -25,3 +25,10 @@ app.listen(3001, () => console.log('Listening on port 3001.....'))
 //app.post()
 //app.put()
 //app.delete()
+
+
+/*
+Application Development
+
+Mocks -> Define collections -> Decide on APIs
+*/

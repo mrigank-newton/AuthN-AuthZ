@@ -2,6 +2,7 @@ const express = require('express');
 const Mentor = require('./../model/mentor');
 const router = express.Router();
 const auth = require('./../middleware/auth');
+const admin = require('./../middleware/admin');
 
 router.get('/', async (req,res) => {
     const mentors = await Mentor.find();
@@ -74,7 +75,7 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
-router.delete('/:id',async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
     //if id does not exist, 404
     //delete the mentor
     try {

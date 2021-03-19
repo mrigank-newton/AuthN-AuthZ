@@ -22,7 +22,10 @@ const User = mongoose.model('user', new mongoose.Schema({
                         minLength: 5,
                         maxLength: 1024
                     },
-                    isAdmin: Boolean
+                    isAdmin: {
+                        type: Boolean, 
+                        default: false
+                    }
                 }));
 
 const validateUser = (user) => {
