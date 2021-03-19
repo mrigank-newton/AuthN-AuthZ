@@ -25,7 +25,17 @@ const User = mongoose.model('user', new mongoose.Schema({
                     isAdmin: {
                         type: Boolean, 
                         default: false
+                    },
+                    contactNumber: {
+                        type: Number,
+                        minLength: 5,
+                        unique: true
+                    },
+                    persona: {
+                        type: String,
+                        enum: ['mentor', 'mentee']
                     }
+
                 }));
 
 const validateUser = (user) => {
