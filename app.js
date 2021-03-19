@@ -30,5 +30,5 @@ app.listen(3001, () => console.log('Listening on port 3001.....'))
 /*
 Application Development
 
-Mocks -> Define collections -> Decide on APIs
+Mocks -> Define collections -> Decide on APIs -> Develop APIs ->  Develop UI -> Integrate APIs with UI
 */
