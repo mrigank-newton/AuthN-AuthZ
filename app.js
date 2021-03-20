@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const mentors = require('./routes/mentors');
+const courses = require('./routes/courses');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 const home = require('./routes/home');
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/', home);
+app.use('/api/courses', courses);
 app.use('/api/mentors', mentors);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
@@ -31,4 +33,52 @@ app.listen(3001, () => console.log('Listening on port 3001.....'))
 Application Development
 
 Mocks -> Define collections -> Decide on APIs -> Develop APIs ->  Develop UI -> Integrate APIs with UI
+
+POST /api/users --> SignUp
+POST /api/auth  --> Login
+
+
+Admin Form to create/update a course
+
+Course Name
+Topic
+Start Date
+End Date
+Fees
+Mentor
+Mentees
+
+Fees
+
+POST /api/courses  --> Create a courses --- DONE
+PUT /api/courses  --> Update a course --- DONE
+GET  /api/topics  --> Get all the topics
+GET  /api/mentors  --> Get all the mentors
+GET  /api/mentees  --> Get all the mentees
+
+Admin Form to updating a mentor details (Mentor already signed up as a mentor)
+
+Name
+Topics (Multi select)
+WorkEx
+
+GET  /api/topics  --> Get all the topics
+PUT  /api/mentors  --> Updating the mentors
+
+
+Mentor UI
+
+GET /api/courses/mentor/:mentorId  --- DONE
+GET /api/courses/:courseId   --- DONE
+GET /api/courses/:courseId/sessions/:date?persona=mentor --- DONE
+POST /api/courses/:courseId/sessions/:date --- DONE
+
+
+Mentee UI
+
+GET /api/courses/mentee/:menteeId  - DONE
+GET /api/courses     - DONE
+GET /api/courses/:courseId    - DONE
+PUT /api/course/:courseId/mentee/:menteeId/subscribe  --> Update a course with subscription -- DONE
+GET /api/courses/:courseId/sessions/:date?persona=mentee  DONE
 */

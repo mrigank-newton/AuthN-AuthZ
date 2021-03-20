@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-function admin(req, res, next) {
+function mentor(req, res, next) {
     const token = req.header('x-auth-header');
 
     if(!token) {
@@ -11,7 +11,7 @@ function admin(req, res, next) {
     try {
         const decodedToken = jwt.verify(token, '1@3456Qw-');
 
-        if(decodedToken.isAdmin) {
+        if(decodedToken.persona === 'mentor') {
             req.user = decodedToken;
             console.log(decodedToken);
             next();
@@ -25,4 +25,4 @@ function admin(req, res, next) {
     }
 }
 
-module.exports = admin;
+module.exports = mentor;

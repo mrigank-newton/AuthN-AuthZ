@@ -24,7 +24,7 @@ router.post('/', async (req,res) => {
     try {
         const user = new User({...req.body, password: await generateHash(req.body.password)});
         const response = await user.save();
-        res.send(_.pick(user, ['name', 'email', '_id']));
+        res.send(_.pick(response, ['name', 'email', '_id']));
     } catch(ex) {
         res.status(400).send(ex.message);
     }

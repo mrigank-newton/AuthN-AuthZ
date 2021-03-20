@@ -25,7 +25,7 @@ router.post('/', async (req,res) => {
         return res.status(400).send('Email or password does not exist');
     }
 
-    const token = jwt.sign({_id: user._id, name: user.name, isAdmin: user.isAdmin}, '1@3456Qw-');
+    const token = jwt.sign({_id: user._id, name: user.name, isAdmin: user.isAdmin, persona: user.persona}, '1@3456Qw-');
     res.header('x-auth-header', token).send({
         email: user.email,
         isAuthenticated: true

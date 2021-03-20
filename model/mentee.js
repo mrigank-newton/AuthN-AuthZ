@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
     
 const Mentee = mongoose.model('mentee', new mongoose.Schema({
-                    name: {
-                        type: String,
-                        required:true
-                    },
+                    menteeId: mongoose.Schema.Types.ObjectId,
                     joiningDate: {
                         type: Date,
                         default: Date.now

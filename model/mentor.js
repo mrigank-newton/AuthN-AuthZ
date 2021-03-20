@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
     
 const Mentor = mongoose.model('mentor', new mongoose.Schema({
-                    name: {
-                        type: String,
-                        required:true,
-                        minLength: 5,
-                        maxLength: 50
-                    },
+                    mentorId: mongoose.Schema.Types.ObjectId,
                     topics: {
                         type:  [ String ],
                         validate: {
@@ -22,7 +17,8 @@ const Mentor = mongoose.model('mentor', new mongoose.Schema({
                     joiningDate: {
                         type: Date,
                         default: Date.now
-                    }
+                    },
+                    workExperience: [Number]
                 }));
 
 module.exports = Mentor;
