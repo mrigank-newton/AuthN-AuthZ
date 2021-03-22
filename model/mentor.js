@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
     
 const Mentor = mongoose.model('mentor', new mongoose.Schema({
-                    mentorId: mongoose.Schema.Types.ObjectId,
+                    mentorId: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'user'
+                    },
                     topics: {
                         type:  [ String ],
                         validate: {

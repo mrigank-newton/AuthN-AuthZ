@@ -2,6 +2,7 @@ const express = require('express');
 const {User, validateUser, validatePassword} = require('./../model/user');
 const generateHash = require('./../hash');
 const router = express.Router();
+const auth =  require('./../middleware/auth');
 const _ = require('lodash');
 
 router.post('/', async (req,res) => {
@@ -28,6 +29,17 @@ router.post('/', async (req,res) => {
     } catch(ex) {
         res.status(400).send(ex.message);
     }
+});
+
+router.get('/:id', [auth], async (req,res) => {
+
+    let user = await User.findById(req.params.id);
+
+    if(user) {
+        return res.status(400).send('User already exists');
+    }
+
+    res.send(_.pick(user, ['name', 'email', 'persona']));
 });
 
 module.exports = router;

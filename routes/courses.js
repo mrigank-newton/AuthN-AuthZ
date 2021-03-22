@@ -7,10 +7,10 @@ const {Session, validateSession} = require('../model/session');
 
 const router = express.Router();
 
-router.post('/', [auth, admin], (req, res) => {
+router.post('/', [auth, admin], async (req, res) => {
     const requestBody = req.body;
 
-    const {error} = validateUser(req.body);
+    const {error} = validateCourse(req.body);
     if(error) {
         return res.status(400).send(`Bad Request ${error}`);
     }
@@ -24,11 +24,14 @@ router.post('/', [auth, admin], (req, res) => {
     }
 });
 
-router.get('/', (req, res) => {
-    return res.send(await Course.find());
+router.get('/', async (req, res) => {
+    const courses = await Course.find()
+                                .populate('mentorId', 'name email persona contactNumber')
+                                .populate('menteesId', 'name email persona contactNumber');
+    res.send(courses);
 });
 
-router.get('/:id', [auth], (req, res) => {
+router.get('/:id', [auth], async (req, res) => {
     let course = await Course.findById(req.params.id);
 
     if(!course) {
@@ -39,7 +42,7 @@ router.get('/:id', [auth], (req, res) => {
     res.send(course);
 });
 
-router.put('/:id', [auth, admin], (req, res) => {
+router.put('/:id', [auth, admin], async (req, res) => {
     let course = await Course.findById(req.params.id);
 
     if(!course) {
@@ -61,7 +64,7 @@ router.put('/:id', [auth, admin], (req, res) => {
     }
 });
 
-router.get('/mentors/:mentorId', [auth, mentor], (req, res) => {
+router.get('/mentors/:mentorId', [auth, mentor], async (req, res) => {
     
     let mentor = await Mentor.findOne({mentorId: req.params.id});
 
@@ -74,7 +77,20 @@ router.get('/mentors/:mentorId', [auth, mentor], (req, res) => {
     res.send(courses);
 });
 
-router.put('/:courseId/mentees/:menteeId/subscribe', [auth], (req, res) => {
+router.get('/mentees/:menteeId', [auth], async (req, res) => {
+    
+    let mentee = await Mentee.findOne({mentee: req.params.id});
+
+    if(!mentee) {
+        res.status(404).send(`Mentee with id ${req.params.id} not found`);
+        return;
+    }
+
+    const courses = await Course.find({menteesId: req.params.menteeId});
+    res.send(courses);
+});
+
+router.put('/:courseId/mentees/:menteeId/subscribe', [auth], async (req, res) => {
     
     let course = await Course.findById(req.params.id);
 
@@ -92,7 +108,7 @@ router.put('/:courseId/mentees/:menteeId/subscribe', [auth], (req, res) => {
     res.send(subscribedCourse);
 });
 
-router.post('/:courseId/sessions', [auth, mentor], (req, res) => {
+router.post('/:courseId/sessions', [auth, mentor], async (req, res) => {
 
     const {courseId} = req.params;
 
@@ -111,6 +127,45 @@ router.post('/:courseId/sessions', [auth, mentor], (req, res) => {
         res.status(400).send(ex.message);
     }
 });
+
+router.get('/:courseId/sessions/:date', [auth, mentor], async (req, res) => {
+
+    const {persona = 'mentee'} = req.query;
+    const {courseId, date} = req.params;
+
+    let course = await Course.findById(courseId);
+
+    if(!course) {
+        res.status(404).send(`Course with id ${courseId} not found`);
+        return;
+    }
+
+    const session = await Session.findOne({date});
+
+    if(!session) {
+        res.status(404).send(`Session details for date ${new Date(date)} not found`);
+        return;
+    }
+
+    if(persona === 'mentee') {
+        delete session.rating;
+    }
+
+    res.send(session);
+});
+
+router.get('/topics/all', async (req, res) => {
+    console.log('Here');
+
+    try {
+        const topics = await Course.find().select('topic').distinct('topic');
+        res.send(topics);
+    } catch(ex) {
+        console.log(ex.message);
+    }
+    
+});
+
 
 
 

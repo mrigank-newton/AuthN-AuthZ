@@ -34,8 +34,8 @@ Application Development
 
 Mocks -> Define collections -> Decide on APIs -> Develop APIs ->  Develop UI -> Integrate APIs with UI
 
-POST /api/users --> SignUp
-POST /api/auth  --> Login
+POST /api/users --> SignUp --- DONE
+POST /api/auth  --> Login --- DONE
 
 
 Admin Form to create/update a course
@@ -44,7 +44,7 @@ Course Name
 Topic
 Start Date
 End Date
-Fees
+Fees - 50 -> 40
 Mentor
 Mentees
 
@@ -52,9 +52,9 @@ Fees
 
 POST /api/courses  --> Create a courses --- DONE
 PUT /api/courses  --> Update a course --- DONE
-GET  /api/topics  --> Get all the topics
-GET  /api/mentors  --> Get all the mentors
-GET  /api/mentees  --> Get all the mentees
+GET  /api/topics  --> Get all the topics --- DONE
+GET  /api/mentors  --> Get all the mentors --- DONE
+GET  /api/mentees  --> Get all the mentees 
 
 Admin Form to updating a mentor details (Mentor already signed up as a mentor)
 
@@ -62,16 +62,27 @@ Name
 Topics (Multi select)
 WorkEx
 
-GET  /api/topics  --> Get all the topics
-PUT  /api/mentors  --> Updating the mentors
+
+SignUp -> Mentor/Mentee -> User Collection
+Admin is adding a mentor -> Mentor Collection
+
+
+POST  /api/mentors  --> Updating the mentors --- DONE
+DELETE  /api/mentors  --> Updating the mentors --- DONE
+PUT  /api/mentors  --> Updating the mentors --- DONE
 
 
 Mentor UI
 
 GET /api/courses/mentor/:mentorId  --- DONE
 GET /api/courses/:courseId   --- DONE
-GET /api/courses/:courseId/sessions/:date?persona=mentor --- DONE
+GET /api/courses/:courseId/sessions/:date?persona=mentor ---DONE
 POST /api/courses/:courseId/sessions/:date --- DONE
+
+
+/api/courses/:id
+
+/api/courses/topics  => req.params.id = topics
 
 
 Mentee UI

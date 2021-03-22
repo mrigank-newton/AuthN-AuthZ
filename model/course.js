@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
     
 const Course = mongoose.model('course', new mongoose.Schema({
                     name: String,
@@ -6,8 +7,14 @@ const Course = mongoose.model('course', new mongoose.Schema({
                     fees: Number,
                     startDate: Date,
                     endDate: Date,
-                    mentorId: mongoose.Schema.Types.ObjectId,
-                    menteesId:  [mongoose.Schema.Types.ObjectId],
+                    mentorId: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'user'
+                    },
+                    menteesId:  [{
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'user'
+                    }],
                     rating: Number
                 }));
 
@@ -20,9 +27,10 @@ const validateCourse = (user) => {
         endDate: Joi.date().greater('now'),
         mentorId: Joi.string().min(5).max(50).required(),
         rating: Joi.number().min(1).max(5).required(),
+        menteesId: Joi.array().required()
     })
 
-    const validationResult = userSchema.validate(user); 
+    const validationResult = courseSchema.validate(user); 
     return validationResult;
 }
 

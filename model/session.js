@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-    
+const Joi = require('joi');
+
 const Session = mongoose.model('session', new mongoose.Schema({
                     courseId: mongoose.Schema.Types.ObjectId,
                     date: {
