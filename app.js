@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const mentors = require('./routes/mentors');
 const courses = require('./routes/courses');
 const users = require('./routes/users');
@@ -13,6 +14,7 @@ mongoose.connect(connectionString)
     .catch(ex => console.log(ex));
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use('/', home);

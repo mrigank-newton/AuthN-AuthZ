@@ -43,7 +43,9 @@ const validateUser = (user) => {
         name: Joi.string().min(5).max(50).required(),
         password: Joi.string().min(5).max(50).required(),
         email: Joi.string().min(5).max(255).required(),
-    }).optional();
+        persona:  Joi.optional(),
+        contactNumber: Joi.optional()
+    });
 
     const validationResult = userSchema.validate(user); 
     return validationResult;
